@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>最终结语</title>
+    <link rel="stylesheet" href="x.css">
+</head>
+<body>
+<!-- 背景音乐 -->
+<audio id="bgMusic" loop>
+    <source src="撞地球.mp3" type="audio/mpeg">
+    您的浏览器不支持音频元素。
+</audio>
+
+<!-- 音乐控制按钮 -->
+<button class="music-control" id="musicToggle">♪</button>
+
+<div class="container">
+    <h1>时光年轮</h1>
+
+    <div class="tree-container" id="treeContainer">
+        <!-- 年轮圆圈将通过JS动态生成 -->
+    </div>
+
+    <div class="year-display" id="yearDisplay">
+        <div class="top-year" id="topYear">1956</div>
+        <div class="bottom-year" id="bottomYear">1979</div>
+    </div>
+
+    <div class="final-year" id="finalYear">2025</div>
+
+    <div class="message" id="message">
+        不管几岁，快乐万岁！<br>爱你们！
+    </div>
+
+    <div class="footer">
+        时光流转 · 记忆永恒
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const treeContainer = document.getElementById('treeContainer');
+        const yearDisplay = document.getElementById('yearDisplay');
+        const topYear = document.getElementById('topYear');
+        const bottomYear = document.getElementById('bottomYear');
+        const finalYear = document.getElementById('finalYear');
+        const message = document.getElementById('message');
+        const title = document.querySelector('h1');
+        const footer = document.querySelector('.footer');
+        const bgMusic = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
+
+        let animationInterval;
+        let circleButtons = [];
+        let allCircles = [];
+        let isMusicPlaying = false;
+
+        // 音乐控制功能
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                musicToggle.textContent = '♪';
+                musicToggle.style.background = 'rgba(160, 120, 80, 0.6)';
+            } else {
+                // 用户交互后自动播放音乐
+                bgMusic.play().then(() => {
+                    musicToggle.textContent = '♫';
+                    musicToggle.style.background = 'rgba(160, 120, 80, 0.9)';
+                    isMusicPlaying = true;
+                }).catch(error => {
+                    console.log('自动播放被阻止:', error);
+                    // 如果自动播放被阻止，显示提示
+                    alert('请点击音乐按钮开启背景音乐');
+                });
+            }
+            isMusicPlaying = !isMusicPlaying;
+        }
+
+        // 音乐按钮点击事件
+        musicToggle.addEventListener('click', toggleMusic);
+
+        // 创建年轮圆圈
+        function createTreeRings() {
+            treeContainer.innerHTML = '';
+            circleButtons = [];
+            allCircles = [];
+
+            const ringCount = 25;
+            const containerSize = Math.min(treeContainer.offsetWidth, treeContainer.offsetHeight);
+            const maxSize = containerSize * 0.95;
+            const minSize = containerSize * 0.08;
+
+            // 创建普通年轮
+            for (let i = 2; i < ringCount; i++) {
+                const circle = document.createElement('div');
+                circle.className = 'circle';
+
+                const size = maxSize - (i * (maxSize - minSize) / ringCount);
+                circle.style.width = size + 'px';
+                circle.style.height = size + 'px';
+
+                const delay = i * 100;
+                circle.style.animationDelay = delay + 'ms';
+
+                const offsetX = (Math.random() - 0.5) * 6;
+                const offsetY = (Math.random() - 0.5) * 6;
+                circle.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px)) scale(0)`;
+
+                treeContainer.appendChild(circle);
+                allCircles.push(circle);
+
+                setTimeout(() => {
+                    circle.style.transition = 'transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                    circle.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px)) scale(1)`;
+                }, delay);
+            }
+
+            // 创建最小的两个年轮作为按钮
+            const buttonSizes = [minSize * 1.2, minSize * 0.8];
+            const buttonDelays = [100, 0];
+
+            buttonSizes.forEach((size, index) => {
+                const button = document.createElement('div');
+                button.className = 'circle-button';
+                button.style.width = size + 'px';
+                button.style.height = size + 'px';
+                button.style.animationDelay = buttonDelays[index] + 'ms';
+                button.style.transform = 'translate(-50%, -50%) scale(0)';
+                button.style.display = 'none';
+
+                treeContainer.appendChild(button);
+                circleButtons.push(button);
+                allCircles.push(button);
+
+                setTimeout(() => {
+                    button.style.transition = 'transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                    button.style.transform = 'translate(-50%, -50%) scale(1)';
+                    button.style.display = 'flex';
+                }, buttonDelays[index] + 1500);
+            });
+        }
+
+        // 隐藏所有年轮和容器
+        function hideAllCirclesAndContainer() {
+            allCircles.forEach(circle => {
+                circle.classList.add('fade-out');
+            });
+
+            // 隐藏标题和页脚
+            title.classList.add('fade-out');
+            footer.classList.add('fade-out');
+
+            // 延迟隐藏容器
+            setTimeout(() => {
+                treeContainer.classList.add('hide');
+                title.classList.add('hide');
+                footer.classList.add('hide');
+            }, 500);
+        }
+
+        // 数字递增动画
+        function startYearAnimation() {
+            // 先隐藏所有年轮和容器
+            hideAllCirclesAndContainer();
+
+            // 延迟显示年份
+            setTimeout(() => {
+                yearDisplay.style.display = 'flex';
+
+                let topValue = 1956;
+                let bottomValue = 1979;
+
+                if (animationInterval) clearInterval(animationInterval);
+
+                animationInterval = setInterval(() => {
+                    topYear.textContent = topValue.toString();
+                    bottomYear.textContent = bottomValue.toString();
+
+                    if (topValue < 2025) topValue++;
+                    if (bottomValue < 2025) bottomValue++;
+
+                    // 当两个年份都达到2025时
+                    if (topValue >= 2025 && bottomValue >= 2025) {
+                        clearInterval(animationInterval);
+
+                        // 短暂停留后显示单独的2025
+                        setTimeout(() => {
+                            showFinalYear();
+                        }, 500);
+                    }
+                }, 30);
+            }, 500);
+        }
+
+        // 显示最终年份
+        function showFinalYear() {
+            yearDisplay.style.display = 'none';
+            finalYear.style.display = 'block';
+
+            setTimeout(() => {
+                finalYear.style.transition = 'opacity 0.5s ease';
+                finalYear.style.opacity = '1';
+            }, 100);
+
+            // 停留1秒后爆炸
+            setTimeout(() => {
+                explodeYear();
+            }, 1000);
+        }
+
+        // 年份爆炸效果
+        function explodeYear() {
+            // 创建爆炸粒子
+            for (let i = 0; i < 40; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = Math.floor(Math.random() * 10).toString();
+
+                const tx = (Math.random() - 0.5) * window.innerWidth * 1.5;
+                const ty = (Math.random() - 0.5) * window.innerHeight * 1.5;
+                particle.style.setProperty('--tx', tx + 'px');
+                particle.style.setProperty('--ty', ty + 'px');
+
+                document.body.appendChild(particle);
+
+                setTimeout(() => {
+                    particle.style.animation = 'explode 1.2s forwards';
+                }, i * 15);
+            }
+
+            // 隐藏2025
+            setTimeout(() => {
+                finalYear.style.opacity = '0';
+
+                // 显示最终消息
+                setTimeout(() => {
+                    message.style.transition = 'opacity 1s ease';
+                    message.style.opacity = '1';
+                }, 500);
+            }, 800);
+        }
+
+        // 初始化年轮动画
+        createTreeRings();
+
+        // 为按钮添加点击事件
+        setTimeout(() => {
+            circleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    console.log('年轮按钮被点击了');
+                    circleButtons.forEach(btn => btn.style.pointerEvents = 'none');
+                    startYearAnimation();
+                });
+
+                // 触摸事件支持
+                button.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    this.style.transform = 'translate(-50%, -50%) scale(0.95)';
+                });
+
+                button.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    this.style.transform = 'translate(-50%, -50%) scale(1)';
+                    this.click();
+                });
+            });
+        }, 2500);
+
+        // 窗口大小变化时重新创建年轮
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                createTreeRings();
+            }, 250);
+        });
+    });
+</script>
+</body>
+</html>

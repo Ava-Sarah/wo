@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>妈咪专属</title>
+    <link rel="stylesheet" href="m.css">
+</head>
+<body>
+<div class="container">
+    <h1>妈咪生日快乐！</h1>
+
+    <!-- 音乐控制 -->
+    <div class="music-control playing" id="musicControl">
+        <div class="music-icon"></div>
+    </div>
+
+    <div class="volume-control" id="volumeControl">
+        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.1" value="0.5">
+    </div>
+
+    <!-- 跳转按钮 -->
+    <button class="jump-button" id="jumpButton">
+        <span class="button-icon">➡️</span>
+        查看更多祝福
+    </button>
+
+    <div class="garden-scene" id="gardenScene">
+        <div class="sky" id="sky">
+            <!-- 云朵将通过JS添加 -->
+        </div>
+
+        <div class="grass-field">
+            <div class="grass-blades-container" id="grassBladesContainer">
+                <!-- 草叶将通过JS添加 -->
+            </div>
+        </div>
+
+        <!-- 花朵将通过JS添加 -->
+        <!-- 祝福语将通过JS自动添加 -->
+    </div>
+
+    <div class="footer">
+        <p>献给世界上最伟大的妈妈 | 祝您永远幸福安康</p>
+    </div>
+</div>
+
+<!-- 音频元素 -->
+<audio id="bgMusic" loop>
+    <source src="如愿.mp3" type="audio/mpeg">
+    您的浏览器不支持音频元素。
+</audio>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const gardenScene = document.getElementById('gardenScene');
+        const grassBladesContainer = document.getElementById('grassBladesContainer');
+        const sky = document.getElementById('sky');
+        const bgMusic = document.getElementById('bgMusic');
+        const musicControl = document.getElementById('musicControl');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volumeControl = document.getElementById('volumeControl');
+        const jumpButton = document.getElementById('jumpButton');
+
+        // 祝福语数组
+        const allBlessings = [
+            "妈妈，您辛苦了！",
+            "愿您永远健康快乐",
+            "您是我生命中最美的风景",
+            "感谢您无私的爱与付出",
+            "妈妈，我爱您！",
+            "愿时光温柔待您",
+            "您的微笑是我最大的幸福",
+            "妈妈，您是我永远的榜样",
+            "妈妈，您是我心中的太阳",
+            "感谢您为我付出的一切",
+            "愿您永远年轻美丽",
+            "您的爱如春风般温暖",
+            "妈妈，您是我永远的港湾",
+            "祝您笑口常开，幸福永驻",
+            "您的关怀是我前行的力量",
+            "妈妈，您辛苦了，我爱您",
+            "您是我生命中最重要的人",
+            "愿您每天都有好心情",
+            "妈妈，您的爱无可替代",
+            "感谢您的养育之恩",
+            "愿您永远被爱包围",
+            "妈妈，您是我最温暖的依靠",
+            "您的爱是我生命中最宝贵的礼物",
+            "愿您永远平安喜乐",
+            "妈妈，感谢您教会我成长",
+            "您的爱如春雨般滋润我心",
+            "愿您永远被幸福环绕",
+            "妈妈，您是我永远的骄傲",
+            "感谢您无微不至的关怀",
+            "愿您永远健康美丽"
+        ];
+
+        // 当前可用的祝福语（复制原始数组）
+        let availableBlessings = [...allBlessings];
+        // 存储已显示的祝福语元素
+        let displayedBlessings = [];
+
+        // 初始化音乐
+        function initMusic() {
+            // 设置初始音量
+            bgMusic.volume = volumeSlider.value;
+
+            // 音乐控制点击事件
+            musicControl.addEventListener('click', function() {
+                if (bgMusic.paused) {
+                    bgMusic.play();
+                    musicControl.classList.remove('paused');
+                    musicControl.classList.add('playing');
+                } else {
+                    bgMusic.pause();
+                    musicControl.classList.remove('playing');
+                    musicControl.classList.add('paused');
+                }
+            });
+
+            // 音量控制
+            volumeSlider.addEventListener('input', function() {
+                bgMusic.volume = this.value;
+            });
+
+            // 自动播放音乐（需要用户交互）
+            document.body.addEventListener('click', function initAudio() {
+                if (bgMusic.paused) {
+                    bgMusic.play().catch(e => {
+                        console.log('自动播放被阻止:', e);
+                    });
+                }
+                document.body.removeEventListener('click', initAudio);
+            });
+        }
+
+        // 初始化跳转按钮
+        function initJumpButton() {
+            jumpButton.addEventListener('click', function() {
+                // 这里可以修改为您想要跳转的网页地址
+                // 如果mothers_day.html不存在，可以跳转到其他页面
+                window.location.href = 'x.html';
+            });
+        }
+
+        // 创建草叶
+        function createGrassBlades() {
+            const bladeCount = window.innerWidth < 768 ? 120 : 180;
+            for (let i = 0; i < bladeCount; i++) {
+                const blade = document.createElement('div');
+                blade.className = 'grass-blade';
+
+                const leftPos = Math.random() * 100;
+                const height = Math.random() * 12 + 6;
+                const rotation = Math.random() * 30 - 15;
+
+                blade.style.left = `${leftPos}%`;
+                blade.style.height = `${height}px`;
+                blade.style.transform = `rotate(${rotation}deg)`;
+
+                grassBladesContainer.appendChild(blade);
+            }
+        }
+
+        // 创建云朵
+        function createClouds() {
+            const cloudCount = window.innerWidth < 768 ? 3 : 5;
+            for (let i = 0; i < cloudCount; i++) {
+                const cloud = document.createElement('div');
+                cloud.className = 'cloud';
+
+                const size = Math.random() * 30 + 20;
+                const leftPos = Math.random() * 100;
+                const topPos = Math.random() * 30;
+                const opacity = Math.random() * 0.3 + 0.5;
+
+                cloud.style.width = `${size}px`;
+                cloud.style.height = `${size/2}px`;
+                cloud.style.left = `${leftPos}%`;
+                cloud.style.top = `${topPos}%`;
+                cloud.style.opacity = opacity;
+
+                sky.appendChild(cloud);
+            }
+        }
+
+        // 创建花朵
+        function createFlower(type, left, bottom) {
+            const flower = document.createElement('div');
+            flower.className = 'flower-container';
+
+            flower.style.left = `${left}%`;
+            flower.style.bottom = `${bottom}%`;
+
+            const stem = document.createElement('div');
+            stem.className = 'flower-stem';
+
+            const head = document.createElement('div');
+            head.className = 'flower-head';
+
+            // 添加花瓣
+            const petalCount = type === 'sunflower' ? 10 : (type === 'daisy' ? 6 : 5);
+            const petalRadius = type === 'sunflower' ? 18 : 12;
+            const petalClass = type === 'sunflower' ? 'sunflower-petal' :
+                type === 'daisy' ? 'daisy-petal' :
+                    type === 'rose' ? 'rose-petal' : 'tulip-petal';
+
+            for (let i = 0; i < petalCount; i++) {
+                const angle = (i / petalCount) * Math.PI * 2;
+                const petal = document.createElement('div');
+                petal.className = `flower-petal ${petalClass}`;
+
+                const x = Math.cos(angle) * petalRadius;
+                const y = Math.sin(angle) * petalRadius;
+
+                petal.style.left = `calc(50% + ${x}px)`;
+                petal.style.top = `calc(50% + ${y}px)`;
+
+                head.appendChild(petal);
+            }
+
+            // 添加花心
+            const center = document.createElement('div');
+            center.className = type === 'sunflower' ? 'flower-center sunflower-center' : 'flower-center';
+            head.appendChild(center);
+
+            flower.appendChild(stem);
+            flower.appendChild(head);
+
+            gardenScene.appendChild(flower);
+        }
+
+        // 获取随机祝福语
+        function getRandomBlessing() {
+            // 如果可用祝福语为空，重新填充
+            if (availableBlessings.length === 0) {
+                availableBlessings = [...allBlessings];
+            }
+
+            // 随机选择一个祝福语
+            const randomIndex = Math.floor(Math.random() * availableBlessings.length);
+            const blessingText = availableBlessings[randomIndex];
+
+            // 从可用列表中移除已选中的祝福语
+            availableBlessings.splice(randomIndex, 1);
+
+            return blessingText;
+        }
+
+        // 获取随机位置，避免重叠
+        function getRandomPosition() {
+            let leftPos, topPos;
+            let attempts = 0;
+            const maxAttempts = 20;
+
+            do {
+                leftPos = Math.random() * 60 + 20; // 20% 到 80%
+                topPos = Math.random() * 50 + 25; // 25% 到 75%
+                attempts++;
+            } while (isOverlapping(leftPos, topPos) && attempts < maxAttempts);
+
+            return { leftPos, topPos };
+        }
+
+        // 检查位置是否与现有祝福语重叠
+        function isOverlapping(leftPos, topPos) {
+            for (const blessing of displayedBlessings) {
+                const rect = blessing.getBoundingClientRect();
+                const blessingLeft = parseFloat(blessing.style.left);
+                const blessingTop = parseFloat(blessing.style.top);
+
+                // 简单距离检查
+                const distance = Math.sqrt(
+                    Math.pow(leftPos - blessingLeft, 2) +
+                    Math.pow(topPos - blessingTop, 2)
+                );
+
+                if (distance < 15) { // 如果距离小于15%，认为重叠
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // 添加祝福语
+        function addBlessing() {
+            const blessingText = getRandomBlessing();
+            const { leftPos, topPos } = getRandomPosition();
+
+            const newBlessing = document.createElement('div');
+            newBlessing.className = 'blessing';
+            newBlessing.textContent = blessingText;
+
+            newBlessing.style.left = `${leftPos}%`;
+            newBlessing.style.top = `${topPos}%`;
+
+            // 随机延迟
+            const delay = Math.random() * 2;
+            newBlessing.style.animationDelay = `${delay}s`;
+
+            gardenScene.appendChild(newBlessing);
+            displayedBlessings.push(newBlessing);
+
+            // 添加淡入效果
+            setTimeout(() => {
+                newBlessing.classList.add('blessing-fade-in');
+            }, 100);
+        }
+
+        // 初始化花园
+        function initGarden() {
+            createGrassBlades();
+            createClouds();
+
+            // 添加初始花朵
+            createFlower('daisy', 15, 10);
+            createFlower('rose', 25, 12);
+            createFlower('tulip', 35, 8);
+            createFlower('sunflower', 75, 15);
+            createFlower('daisy', 85, 9);
+            createFlower('rose', 65, 11);
+            createFlower('tulip', 45, 7);
+            createFlower('sunflower', 55, 13);
+
+            // 开始自动添加祝福语 - 无限循环
+            setInterval(() => {
+                addBlessing();
+            }, 1500); // 每1.5秒添加一个祝福语
+        }
+
+        // 初始化
+        initMusic();
+        initJumpButton();
+        initGarden();
+
+        // 处理屏幕旋转
+        window.addEventListener('resize', function() {
+            // 在实际应用中，这里可以添加屏幕旋转时的重新布局逻辑
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,324 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: linear-gradient(135deg, #ffd700, #ff6b6b, #ff8c00);
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+h1 {
+    color: #8B0000;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+    margin: 5% 0 3%;
+    font-size: 1.8rem;
+    position: relative;
+    z-index: 10;
+    padding: 0 5%;
+    line-height: 1.3;
+    font-weight: bold;
+}
+
+.scene {
+    position: relative;
+    width: 100%;
+    height: 75%;
+    overflow: hidden;
+}
+
+.sky {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #ffd700, #ff6b6b, #ff8c00);
+    z-index: 1;
+}
+
+/* 树叶样式 */
+.leaf {
+    position: absolute;
+    background: linear-gradient(135deg, #ffd700, #ff8c00);
+    border-radius: 50% 0 50% 0;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 3;
+    opacity: 0;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+/* 树叶飘落动画 */
+@keyframes leafFall {
+    0% {
+        opacity: 0;
+        transform: translate(var(--start-x), var(--start-y)) rotate(0deg);
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--end-x), var(--end-y)) rotate(360deg);
+    }
+}
+
+/* 祝福语样式 */
+.blessing {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.92);
+    padding: 8px 12px;
+    border-radius: 18px;
+    font-size: 0.9rem;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    z-index: 6;
+    max-width: 45%;
+    text-align: center;
+    line-height: 1.3;
+    animation: float 8s ease-in-out infinite;
+    opacity: 0;
+    transform: translateY(15px);
+    word-break: break-word;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: #8B4513;
+    font-weight: bold;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-4px) rotate(0.5deg);
+    }
+    50% {
+        transform: translateY(-2px) rotate(-0.5deg);
+    }
+    75% {
+        transform: translateY(-6px) rotate(0.3deg);
+    }
+}
+
+.blessing-fade-in {
+    animation: fadeIn 0.8s forwards, float 8s ease-in-out infinite 0.8s;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.footer {
+    position: absolute;
+    bottom: 2%;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: 0.8rem;
+    z-index: 10;
+    padding: 0 5%;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* 音乐控制样式 */
+.music-control {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.music-control:hover {
+    background: rgba(255, 255, 255, 0.95);
+    transform: scale(1.1);
+}
+
+.music-icon {
+    font-size: 20px;
+    color: #ff4500;
+}
+
+.music-control.playing .music-icon::before {
+    content: "♪";
+}
+
+.music-control.paused .music-icon::before {
+    content: "♫";
+}
+
+.volume-control {
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.volume-slider {
+    width: 80px;
+    height: 4px;
+    background: #ddd;
+    border-radius: 2px;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #ff4500;
+    cursor: pointer;
+}
+
+/* 跳转按钮样式 */
+.jump-button {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    background: linear-gradient(135deg, #ff8c00, #ff4500);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.jump-button:hover {
+    transform: translateX(-50%) scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.jump-button:active {
+    transform: translateX(-50%) scale(0.98);
+}
+
+.button-icon {
+    font-size: 18px;
+}
+
+/* 横屏适配 */
+@media (orientation: landscape) {
+    h1 {
+        font-size: 1.5rem;
+        margin: 2% 0 1%;
+    }
+
+    .scene {
+        height: 70%;
+    }
+
+    .blessing {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+        max-width: 35%;
+    }
+
+    .footer {
+        font-size: 0.7rem;
+        bottom: 1%;
+    }
+
+    .music-control {
+        top: 5px;
+        right: 5px;
+        width: 35px;
+        height: 35px;
+    }
+
+    .volume-control {
+        top: 45px;
+        right: 5px;
+    }
+
+    .jump-button {
+        bottom: 40px;
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+/* 小屏幕手机适配 */
+@media (max-width: 360px) {
+    h1 {
+        font-size: 1.5rem;
+        margin: 8% 0 5%;
+    }
+
+    .blessing {
+        font-size: 0.85rem;
+        padding: 7px 10px;
+        max-width: 40%;
+    }
+
+    .music-control {
+        width: 35px;
+        height: 35px;
+    }
+
+    .music-icon {
+        font-size: 18px;
+    }
+
+    .volume-slider {
+        width: 70px;
+    }
+
+    .jump-button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        bottom: 50px;
+    }
+}

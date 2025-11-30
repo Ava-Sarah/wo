@@ -1,0 +1,353 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+}
+/* 上半部分粉色区域-妈咪 */
+.pink-section {
+    flex: 1;
+    background-color: #ffcce6;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23fff' fill-opacity='0.5' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+.pink-section .bow {
+    position: absolute;
+    width: 100px;
+    height: 80px;
+    background-color: #ff99cc;
+    border-radius: 50% 50% 0 0;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+.pink-section .bow::after, .pink-section .bow::before {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 100px;
+    background-color: #ff99cc;
+    bottom: 0;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+.pink-section .bow::before {
+    left: -25px;
+    transform: rotate(-35deg);
+}
+.pink-section .bow::after {
+    right: -25px;
+    transform: rotate(35deg);
+}
+.pink-section .bow .knot {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 35px;
+    height: 35px;
+    background-color: #ff66b3;
+    border-radius: 50%;
+    box-shadow: inset 0 3px 5px rgba(0,0,0,0.2);
+}
+.pink-section .bow.main {
+    top: 10%;
+    left: 15%;
+}
+.pink-section .bow.small1 {
+    top: 25%;
+    left: 5%;
+    width: 60px;
+    height: 50px;
+    background-color: #ffb3d9;
+}
+.pink-section .bow.small1::after, .pink-section .bow.small1::before {
+    width: 25px;
+    height: 70px;
+    background-color: #ffb3d9;
+}
+.pink-section .bow.small1 .knot {
+    width: 25px;
+    height: 25px;
+    background-color: #ff80bf;
+}
+.pink-section .bow.small2 {
+    top: 60%;
+    right: 5%;
+    width: 60px;
+    height: 50px;
+    background-color: #ff80bf;
+}
+.pink-section .bow.small2::after, .pink-section .bow.small2::before {
+    width: 25px;
+    height: 70px;
+    background-color: #ff80bf;
+}
+.pink-section .bow.small2 .knot {
+    width: 25px;
+    height: 25px;
+    background-color: #ff66b3;
+}
+.pink-section .bow.small3 {
+    top: 40%;
+    right: 10%;
+    width: 50px;
+    height: 40px;
+    background-color: #ffcce6;
+}
+.pink-section .bow.small3::after, .pink-section .bow.small3::before {
+    width: 20px;
+    height: 60px;
+    background-color: #ffcce6;
+}
+.pink-section .bow.small3 .knot {
+    width: 20px;
+    height: 20px;
+    background-color: #ff99cc;
+}
+.pink-section .bow.small4 {
+    top: 70%;
+    left: 10%;
+    width: 50px;
+    height: 40px;
+    background-color: #ffcce6;
+}
+.pink-section .bow.small4::after, .pink-section .bow.small4::before {
+    width: 20px;
+    height: 60px;
+    background-color: #ffcce6;
+}
+.pink-section .bow.small4 .knot {
+    width: 20px;
+    height: 20px;
+    background-color: #ff99cc;
+}
+/* 下半部分金黄色区域-姥爷 */
+.gold-section {
+    flex: 1;
+    /* 金黄色带棕色条纹背景 */
+    background: repeating-linear-gradient(
+            45deg,
+            #ffd700,
+            #ffd700 20px,
+            #cc9900 20px,
+            #cc9900 40px
+    );
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+/* 爪子印装饰 */
+.gold-section .paw-print {
+    position: absolute;
+    width: 80px;
+    height: 90px;
+    opacity: 0.7;
+    filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.2));
+}
+.gold-section .paw-print .pad {
+    position: absolute;
+    width: 50px;
+    height: 55px;
+    background-color: #8B4513;
+    border-radius: 50%;
+    top: 35px;
+    left: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.gold-section .paw-print .toe {
+    position: absolute;
+    width: 25px;
+    height: 30px;
+    background-color: #8B4513;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+/* 四个脚趾均匀分布，不重叠 */
+.gold-section .paw-print .toe:nth-child(1) {
+    top: 10px;
+    left: 10px;
+}
+.gold-section .paw-print .toe:nth-child(2) {
+    top: 5px;
+    left: 30px;
+}
+.gold-section .paw-print .toe:nth-child(3) {
+    top: 10px;
+    right: 10px;
+}
+.gold-section .paw-print .toe:nth-child(4) {
+    top: 25px;
+    left: 40px;
+}
+/* 5个爪子印的位置分布 */
+.gold-section .paw-print:nth-child(1) {
+    top: 15%;
+    left: 10%;
+    transform: rotate(-15deg);
+}
+.gold-section .paw-print:nth-child(2) {
+    top: 30%;
+    right: 15%;
+    transform: rotate(25deg);
+    width: 70px;
+    height: 80px;
+}
+.gold-section .paw-print:nth-child(2) .pad {
+    width: 45px;
+    height: 50px;
+    left: 12.5px;
+}
+.gold-section .paw-print:nth-child(2) .toe {
+    width: 22px;
+    height: 27px;
+}
+.gold-section .paw-print:nth-child(3) {
+    bottom: 30%;
+    left: 20%;
+    transform: rotate(10deg);
+    width: 75px;
+    height: 85px;
+}
+.gold-section .paw-print:nth-child(3) .pad {
+    width: 47px;
+    height: 52px;
+    left: 14px;
+}
+.gold-section .paw-print:nth-child(3) .toe {
+    width: 23px;
+    height: 28px;
+}
+.gold-section .paw-print:nth-child(4) {
+    bottom: 15%;
+    right: 25%;
+    transform: rotate(-20deg);
+    width: 65px;
+    height: 75px;
+}
+.gold-section .paw-print:nth-child(4) .pad {
+    width: 40px;
+    height: 45px;
+    left: 12.5px;
+}
+.gold-section .paw-print:nth-child(4) .toe {
+    width: 20px;
+    height: 25px;
+}
+.gold-section .paw-print:nth-child(5) {
+    top: 50%;
+    left: 30%;
+    transform: rotate(5deg);
+    width: 70px;
+    height: 80px;
+}
+.gold-section .paw-print:nth-child(5) .pad {
+    width: 45px;
+    height: 50px;
+    left: 12.5px;
+}
+.gold-section .paw-print:nth-child(5) .toe {
+    width: 22px;
+    height: 27px;
+}
+/* 按钮通用样式 */
+.login-btn {
+    padding: 20px 40px;
+    border: none;
+    border-radius: 10px;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 30px;
+    color: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
+}
+.login-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+}
+.login-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.pink-btn {
+    background: linear-gradient(to bottom, #ff66b3, #ff3385);
+}
+.gold-btn {
+    background: linear-gradient(to bottom, #cc9900, #996600);
+}
+/* 提示文字 */
+.tip {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 20px;
+    text-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    background-color: rgba(0,0,0,0.1);
+    padding: 10px 20px;
+    border-radius: 10px;
+    z-index: 10;
+}
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .pink-section .bow.main {
+        width: 80px;
+        height: 60px;
+    }
+    .pink-section .bow.main::after, .pink-section .bow.main::before {
+        width: 30px;
+        height: 80px;
+    }
+    .pink-section .bow.main .knot {
+        width: 28px;
+        height: 28px;
+    }
+    .pink-section .bow.small1, .pink-section .bow.small2 {
+        width: 50px;
+        height: 40px;
+    }
+    .pink-section .bow.small1::after, .pink-section .bow.small1::before,
+    .pink-section .bow.small2::after, .pink-section .bow.small2::before {
+        width: 20px;
+        height: 60px;
+    }
+    .pink-section .bow.small1 .knot, .pink-section .bow.small2 .knot {
+        width: 20px;
+        height: 20px;
+    }
+    .gold-section .paw-print {
+        width: 60px;
+        height: 70px;
+    }
+    .gold-section .paw-print .pad {
+        width: 35px;
+        height: 40px;
+        left: 12.5px;
+    }
+    .gold-section .paw-print .toe {
+        width: 18px;
+        height: 22px;
+    }
+    .login-btn {
+        padding: 15px 30px;
+        font-size: 18px;
+    }
+    .tip {
+        font-size: 20px;
+    }
+}

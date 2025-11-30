@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="12.1.css">
+    <title>天空一声炸响，本王闪亮登场！</title>
+</head>
+<body>
+<div class="starry-bg"></div>
+<div class="meteor-shower" id="meteorShower">
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+</div>
+<div class="bg-overlay" id="bgOverlay"></div>
+<div class="star-track" id="starTrack">@</div>
+<button id="startBtn">ready？</button>
+<div class="door-light" id="doorLight"></div>
+<audio id="bgMusic" loop>
+    <source src="所念皆星河.mp3" type="audio/mpeg">
+</audio>
+<div class="music-tip" id="musicTip">🎵 音乐播放中</div>
+
+<script>
+    const btn = document.getElementById('startBtn');
+    const bgOverlay = document.getElementById('bgOverlay');
+    const starTrack = document.getElementById('starTrack');
+    const doorLight = document.getElementById('doorLight');
+    const bgMusic = document.getElementById('bgMusic');
+    const musicTip = document.getElementById('musicTip');
+    const meteorShower = document.getElementById('meteorShower');
+    let isReady = false;
+
+    btn.addEventListener('click', () => {
+        if (!isReady) {
+            meteorShower.style.display = 'none';
+
+            bgMusic.play().catch(err => {
+                musicTip.innerText = '🎵 点击继续播放音乐';
+                musicTip.style.opacity = 1;
+                document.body.addEventListener('click', () => {
+                    bgMusic.play();
+                    musicTip.innerText = '🎵 音乐播放中';
+                }, { once: true });
+            });
+
+            starTrack.style.opacity = 1;
+            bgOverlay.style.filter = 'blur(8px)';
+            btn.innerText = "let's go";
+            musicTip.style.opacity = 1;
+            isReady = true;
+        } else {
+            doorLight.style.width = '100vw';
+            bgMusic.pause();
+            bgMusic.currentTime = 0;
+            setTimeout(() => {
+                window.location.href = "choice.html";
+            }, 1000);
+        }
+    });
+</script>
+</body>
+</html>
